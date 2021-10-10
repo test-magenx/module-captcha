@@ -4,21 +4,18 @@
  */
 
 define([
-    'jquery', 'mage/url'
-], function ($, urlBuilder) {
+    'mage/storage'
+], function (storage) {
     'use strict';
 
     return function (refreshUrl, formId, imageSource) {
-        return $.ajax({
-            url: urlBuilder.build(refreshUrl),
-            type: 'POST',
-            async: false,
-            data: JSON.stringify({
+        return storage.post(
+            refreshUrl,
+            JSON.stringify({
                 'formId': formId
             }),
-            global: false,
-            contentType: 'application/json'
-        }).done(
+            false
+        ).done(
             function (response) {
                 if (response.imgSrc) {
                     imageSource(response.imgSrc);
